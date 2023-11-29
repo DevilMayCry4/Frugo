@@ -3,6 +3,7 @@ from tkinter import filedialog
 import openpyxl
 import json
 import pandas as pd
+import requests
 class ExcelParserApp:
     def __init__(self, master):
         self.master = master
@@ -19,6 +20,7 @@ class ExcelParserApp:
         self.start_button.pack(pady=20)
         self.file_path = None
         self.file_path2 = None
+        self.procesArray = None
 
     def choose_file(self):
         self.file_path = filedialog.askopenfilename(filetypes=[("Excel files", "*.xlsx;*.xls")])
@@ -27,8 +29,8 @@ class ExcelParserApp:
         self.file_path2 = filedialog.askopenfilename(filetypes=[("Excel files", "*.xlsx;*.xls")])
 
     def start_parsing(self):
-
-        self.parse_excel_to_array()
+        self.procesArray = self.parse_excel_to_array()
+        self.process_nested_arrays()
         if self.file_path is None or self.file_path2 is None:
             if self.file_path is None:
                 tk.messagebox.showinfo("提示", "请先选择物流excel文件")
@@ -75,6 +77,30 @@ class ExcelParserApp:
             print(f"Error parsing Excel file: {e}")
             return []
 
+    def process_nested_arrays(self):
+        data_array = self.procesArray
+        for item in data_array:
+            if isinstance(item, list):
+                # 取第3个值拼接到接口后面
+                tracking_number = item[2]
+                api_url = f"http://api.track.yw56.com.cn/api/tracking?nums={tracking_number}"
+
+                # 取第7个值设置请求头
+                authorization_header = {"Authorization": str(item[7])}
+
+                # 发送请求
+                try:
+                    response = requests.get(api_url, headers=authorization_header)
+                    response_data = response.json()
+
+                    # 解析接口返回的结果
+                    if isinstance(response_data, dict) and response_data.get("code") == 0:
+                        print(f"成功: {response_data}")
+                    else:
+                        print(f"接口返回错误: {response_data}")
+
+                except requests.RequestException as e:
+                    print(f"请求错误: {e}")
 if __name__ == "__main__":
     root = tk.Tk()
     app = ExcelParserApp(root)
