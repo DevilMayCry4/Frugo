@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 import openpyxl
 import json
-
+import pandas as pd
 class ExcelParserApp:
     def __init__(self, master):
         self.master = master
@@ -27,9 +27,13 @@ class ExcelParserApp:
         self.file_path2 = filedialog.askopenfilename(filetypes=[("Excel files", "*.xlsx;*.xls")])
 
     def start_parsing(self):
-        if self.file_path is None or self.file_path2 is None:
 
-            print("请先选择物流excel文件")
+        self.parse_excel_to_array()
+        if self.file_path is None or self.file_path2 is None:
+            if self.file_path is None:
+                tk.messagebox.showinfo("提示", "请先选择物流excel文件")
+            else:
+                tk.messagebox.showinfo("提示", "请先选择店铺excel文件")
             return
 
         try:
@@ -55,6 +59,21 @@ class ExcelParserApp:
 
         except Exception as e:
             print(f"发生错误：{e}")
+
+    def parse_excel_to_array(self):
+        try:
+            # 读取 Excel 文件的第一个表单
+            df = pd.read_excel(self.file_path, sheet_name=0)
+
+            # 将数据框转换为数组对象
+            array_data = df.values.tolist()
+
+            return array_data
+
+        except Exception as e:
+            # 如果发生异常，打印错误信息并返回空数组
+            print(f"Error parsing Excel file: {e}")
+            return []
 
 if __name__ == "__main__":
     root = tk.Tk()
