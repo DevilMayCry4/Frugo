@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload Result</title>
+</head>
+<body>
+    <h1>File Upload Result</h1>
+    {% if result %}
+        <ul>
+            {% for sheet, values in result %}
+                <li>Sheet: {{ sheet }} - Found values: {{ values }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No matching values found.</p>
+    {% endif %}
+</body>
+</html>
