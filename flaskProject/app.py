@@ -38,23 +38,30 @@ def upload_file():
 
         # 解析物流文件的第2列
         logistics_df = pd.read_excel(logistics_file_path)
-        column2_values = logistics_df.iloc[:, 1].tolist()
+        column2_values = logistics_df.iloc[:, 2].tolist()
 
         # 在店铺文件中查找对应的值所在的sheet名字
         store_df = pd.read_excel(store_file_path, sheet_name=None)
 
-        result_sheets = []
+        result_data = []
         for sheet_name, sheet_data in store_df.items():
-            if not sheet_data.empty and sheet_data.shape[1] > 0:
-                found_values = set(column2_values) & set(sheet_data.iloc[:, 0].tolist())
-                if found_values:
-                    result_sheets.append((sheet_name, list(found_values)))
+            if not sheet_data.empty and '店' in sheet_name and sheet_data.shape[1] > 0:
+                for index, row in sheet_data.iterrows():
+                    orderId =  row.iloc[3]
+                    if orderId in column2_values:
+                        found_data = {
+                            'sheet_name': sheet_name,
+                            'column1_value':orderId,
+                            'column6_value': str(row.iloc[1]).replace('.', '')
+                        }
+                        result_data.append(found_data)
+
 
         # 删除上传的文件，如果你想保留文件，可以注释掉下面这行
         os.remove(logistics_file_path)
         os.remove(store_file_path)
 
-        return render_template('result.html', result=result_sheets)
+        return render_template('result.html', result=result_data)
 
     return "File type not allowed"
 

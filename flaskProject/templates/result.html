@@ -10,8 +10,12 @@
     <h1>File Upload Result</h1>
     {% if result %}
         <ul>
-            {% for sheet, values in result %}
-                <li>Sheet: {{ sheet }} - Found values: {{ values }}</li>
+            {% for data in result %}
+                <li>
+                    店铺: {{ data['sheet_name'] }} -
+                    物流单号: {{ data['column1_value'] }} -
+                    订单号: {{ data['column6_value'] }}
+                </li>
             {% endfor %}
         </ul>
     {% else %}
