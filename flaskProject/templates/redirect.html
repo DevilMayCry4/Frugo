@@ -1,0 +1,19 @@
+<!-- display_strings.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Strings</title>
+</head>
+<body>
+    <h1>以下国家还没有配置对应的手机号码和网址</h1>
+    <ul>
+        {% for string in strings %}
+            <li>{{ string }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('contry') }}"><button>前往配置</button></a>
+</body>
+</html>

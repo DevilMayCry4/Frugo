@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify,url_for,redirect,flash
 import json
 import pandas as pd
 from werkzeug.utils import secure_filename
@@ -58,6 +58,20 @@ def upload_file():
         # 解析物流文件的第2列
         logistics_df = pd.read_excel(logistics_file_path)
         column2_values = logistics_df.iloc[:, 2].tolist()
+        contry_values = logistics_df.iloc[:, 5].tolist()
+        contry_values = list(set(contry_values))
+
+        contryData = None
+        with open('static/post.json', 'r') as f:
+            contryData = json.load(f)
+        noConfigArray = []
+        for string in contry_values:
+            if string in list(contryData.keys()):
+                break
+            else:
+                noConfigArray.append(string)
+        if noConfigArray.count() != 0:
+            return render_template("redirect.html",strings=noConfigArray)
 
         # 在店铺文件中查找对应的值所在的sheet名字
         store_df = pd.read_excel(store_file_path, sheet_name=None)
