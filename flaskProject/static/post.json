@@ -1,0 +1,18 @@
+{
+  "比利时": {
+    "phone": "022 012345",
+    "url": "https://www.bpost.be/en"
+  },
+  "芬兰": {
+    "phone": "0600 11300",
+    "url": "https://www.matkahuolto.fi/en"
+  },
+  "捷克": {
+    "phone": "+420 216 216 516",
+    "url": "https://www.packeta.com"
+  },
+  "以色列": {
+    "phone": "Info@mailogs.com",
+    "url": "https://track.yw56.com.cn/"
+  }
+}

@@ -1,7 +1,11 @@
-from flask import Flask, render_template, request
+# -*- coding: UTF-8 -*-
+
+from flask import Flask, render_template, request, jsonify
+import json
 import pandas as pd
 from werkzeug.utils import secure_filename
 import os
+
 
 app = Flask(__name__)
 
@@ -13,6 +17,21 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route('/contry')
+def contry():
+    return render_template('contry.html')
+
+@app.route('/save-json', methods=['POST'])
+def save_json():
+    data = request.get_json()
+
+    # Save the updated JSON data to post.json
+    with open('static/post.json', 'w', encoding='utf-8') as json_file:
+        json.dump(data, json_file, indent=2, ensure_ascii=False)
+
+    return jsonify(data)
 
 @app.route('/')
 def index():

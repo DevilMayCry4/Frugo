@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Viewer and Editor</title>
+</head>
+<body>
+    <h1>JSON Viewer and Editor</h1>
+
+    <div id="json-display"></div>
+
+    <h2>Add New Entry</h2>
+    <form id="add-entry-form">
+        <label for="country">Country:</label>
+        <input type="text" id="country" name="country" required>
+        <br>
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" name="phone" required>
+        <br>
+        <label for="url">URL:</label>
+        <input type="text" id="url" name="url" required>
+        <br>
+        <input type="submit" value="Add Entry">
+    </form>
+
+    <script>
+        // Function to display JSON data
+        function displayJson(data) {
+            const jsonDisplay = document.getElementById('json-display');
+            jsonDisplay.innerHTML = JSON.stringify(data, null, 2);
+        }
+
+        // Function to add a new entry to the JSON data
+        function addEntry(event) {
+            event.preventDefault();
+
+            const countryInput = document.getElementById('country');
+            const phoneInput = document.getElementById('phone');
+            const urlInput = document.getElementById('url');
+
+            const country = countryInput.value;
+            const phone = phoneInput.value;
+            const url = urlInput.value;
+
+            // Fetch the current JSON data
+            fetch('/static/post.json')
+                .then(response => response.json())
+                .then(data => {
+                    // Add the new entry
+                    data[country] = { "phone": phone, "url": url };
+            // Add the new entry
+
+                    // Save the updated JSON data
+                    fetch('/save-json', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    })
+                    .then(response => response.json())
+                    .then(updatedData => {
+                        // Display the updated JSON data
+                        displayJson(updatedData);
+                        // Clear the form inputs
+                        countryInput.value = '';
+                        phoneInput.value = '';
+                        urlInput.value = '';
+                    });
+                });
+        }
+
+        // Attach the event listener to the form
+        document.getElementById('add-entry-form').addEventListener('submit', addEntry);
+
+        // Fetch and display the initial JSON data
+        fetch('/static/post.json')
+            .then(response => response.json())
+            .then(data => displayJson(data));
+    </script>
+</body>
+</html>
