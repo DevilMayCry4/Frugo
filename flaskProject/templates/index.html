@@ -86,11 +86,12 @@
         <label for="logistics_file">选择物流文件:</label>
         <input type="file" name="logistics_file" accept=".xlsx" required>
         <br>
-        <label for="store_file">选择店铺文件:</label>
+        <label for="store_file">选择出单表:</label>
         <input type="file" name="store_file" accept=".xlsx" required>
         <br>
         <input type="submit" value="开始生成回复" onclick="showLoadingOverlay()">
     </form>
+    <div style="color: red;font-size: larger">上传出单表之前，记得删除待下架的sheet</div>
 
     <!-- Loading Overlay -->
     <div id="loading-overlay">
