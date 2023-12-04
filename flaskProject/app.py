@@ -69,7 +69,7 @@ def upload_file():
         noConfigArray = []
         for string in contrySet:
             if string in list(contryData.keys()):
-                break
+                continue
             else:
                 noConfigArray.append(string)
         if  len(noConfigArray):

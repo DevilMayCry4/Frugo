@@ -60,7 +60,11 @@
             Object.keys(data).forEach(key => {
                 const entry = data[key];
                 const row = document.createElement('tr');
-                row.innerHTML = `<td>${key}</td><td>${entry.phone}</td><td>${entry.url}</td>`;
+                if(entry.email){
+                    row.innerHTML = `<td>${key}</td><td>${entry.email}</td><td>${entry.url}</td>`;
+                }else{
+                     row.innerHTML = `<td>${key}</td><td>${entry.phone}</td><td>${entry.url}</td>`;
+                }
                 tbody.appendChild(row);
             });
         }
@@ -84,8 +88,14 @@
                     // Ensure data is an object
                     const newData = typeof data === 'object' ? { ...data } : {};
 
+                    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    let isEmail = emailRegex.test(phone);
+                    if(isEmail){
+                    newData[contry] = { "email": phone, "url": url };
+                    }else{
 
                     newData[contry] = { "phone": phone, "url": url };
+                    }
 
                     // Save the updated JSON data
                     fetch('/save-json', {
