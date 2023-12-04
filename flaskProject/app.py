@@ -70,7 +70,7 @@ def upload_file():
                 break
             else:
                 noConfigArray.append(string)
-        if noConfigArray.count() != 0:
+        if  len(noConfigArray):
             return render_template("redirect.html",strings=noConfigArray)
 
         # 在店铺文件中查找对应的值所在的sheet名字
