@@ -89,8 +89,8 @@ def upload_file():
                         contryItem = contryData[shipContry]
                         found_data = {
                             'sheet_name': sheet_name,
-                            'column1_value':orderId,
-                            'column6_value': str(row.iloc[1]).replace('.', ''),
+                            'column1_value': orderId,
+                            'column6_value': str(row.iloc[1]).replace('.', '').rstrip("0"),
                             'shipContry':shipContry_values[indexOfShip],
                             'trackingNumber':trackingNumbers[indexOfShip],
                         }
