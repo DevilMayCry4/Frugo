@@ -30,10 +30,11 @@
                 <th>店铺</th>
                 <th>物流单号</th>
                 <th>订单号</th>
+                <th>国家</th>
             </tr>
              {% if result %}
              {% for data in result %}
-         <tr><td>{{data['sheet_name']}}</td><td>{{ data['column1_value'] }}</td><td>{{ data['column6_value'] }}</td><tr>
+         <tr><td>{{data['sheet_name']}}</td><td>{{ data['column1_value'] }}</td><td>{{ data['column6_value'] }}</td><td>{{ data['shipContry'] }}</td><tr>
          {% endfor %}
         {%  else %}
             <td>数据有误<td> {% endif %}

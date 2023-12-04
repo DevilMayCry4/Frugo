@@ -58,6 +58,7 @@ def upload_file():
         # 解析物流文件的第2列
         logistics_df = pd.read_excel(logistics_file_path)
         column2_values = logistics_df.iloc[:, 2].tolist()
+        shipContry_values = logistics_df.iloc[:, 5].tolist()
         contry_values = logistics_df.iloc[:, 5].tolist()
         contry_values = list(set(contry_values))
 
@@ -82,10 +83,12 @@ def upload_file():
                 for index, row in sheet_data.iterrows():
                     orderId =  row.iloc[3]
                     if orderId in column2_values:
+                        indexOfShip = column2_values.index(orderId)
                         found_data = {
                             'sheet_name': sheet_name,
                             'column1_value':orderId,
-                            'column6_value': str(row.iloc[1]).replace('.', '')
+                            'column6_value': str(row.iloc[1]).replace('.', ''),
+                            'shipContry':shipContry_values[indexOfShip]
                         }
                         result_data.append(found_data)
 
