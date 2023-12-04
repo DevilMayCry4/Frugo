@@ -4,18 +4,110 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Upload</title>
+    <title>物流订单回复</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            display: inline-block;
+            text-align: left;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input[type="file"] {
+            margin-bottom: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        #loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 999;
+        }
+
+        #loading-spinner {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-    <h1>File Upload</h1>
-    <form action="/upload" method="post" enctype="multipart/form-data">
+    <h1>物流订单回复</h1>
+    <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
         <label for="logistics_file">选择物流文件:</label>
         <input type="file" name="logistics_file" accept=".xlsx" required>
         <br>
         <label for="store_file">选择店铺文件:</label>
         <input type="file" name="store_file" accept=".xlsx" required>
         <br>
-        <input type="submit" value="Upload">
+        <input type="submit" value="开始生成回复" onclick="showLoadingOverlay()">
     </form>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div id="loading-spinner"></div>
+        <p>正在生成回复，如果超过2分钟，请刷新页面...</p>
+    </div>
+
+    <script>
+        function showLoadingOverlay() {
+            var overlay = document.getElementById('loading-overlay');
+            overlay.style.display = 'flex';
+
+            // Simulate loading delay (you can remove this in production)
+            setTimeout(function() {
+                overlay.style.display = 'none';
+            }, 3000);
+        }
+    </script>
 </body>
 </html>

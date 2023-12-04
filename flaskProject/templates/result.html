@@ -27,14 +27,26 @@
       <table id="json-table">
         <thead>
             <tr>
+                <th>序号</th>
                 <th>店铺</th>
                 <th>物流单号</th>
                 <th>订单号</th>
-                <th>国家</th>
+                <th>回复内容</th>
             </tr>
              {% if result %}
              {% for data in result %}
-         <tr><td>{{data['sheet_name']}}</td><td>{{ data['column1_value'] }}</td><td>{{ data['column6_value'] }}</td><td>{{ data['shipContry'] }}</td><tr>
+                 <tr><td>{{ loop.index + 1}}</td><td>{{data['sheet_name']}}</td><td>{{ data['column1_value'] }}</td><td>{{ data['column6_value'] }}</td>><td>Hello dear friend.<br>
+
+Your order package has been delivered to your local post office, you need to go to the local post office to pick it up. We recommend that you call the post office to confirm the pickup time and location before picking up your package yourself. Details are as follows.\n
+             Waybill number:{{ data['column1_value'] }}<br>
+tracking number:{{ data['trackingNumber'] }}<br>
+{% if data["email"] %}
+    Post office email:{{ data["email"]}}<br>
+             {% else %}Post office phone number:{{ data["phone"]}}<br>
+{% endif %}
+Post office website:{{ data["url"] }}<br>
+Wishing you a happy life and best regards.<br>
+Judy</td><tr>
          {% endfor %}
         {%  else %}
             <td>数据有误<td> {% endif %}

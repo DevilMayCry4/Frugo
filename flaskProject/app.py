@@ -58,15 +58,16 @@ def upload_file():
         # 解析物流文件的第2列
         logistics_df = pd.read_excel(logistics_file_path)
         column2_values = logistics_df.iloc[:, 2].tolist()
+        #物流国家
         shipContry_values = logistics_df.iloc[:, 5].tolist()
-        contry_values = logistics_df.iloc[:, 5].tolist()
-        contry_values = list(set(contry_values))
-
+        contrySet = list(set(shipContry_values))
+        # 转运单
+        trackingNumbers = logistics_df.iloc[:, 3].tolist()
         contryData = None
         with open('static/post.json', 'r') as f:
             contryData = json.load(f)
         noConfigArray = []
-        for string in contry_values:
+        for string in contrySet:
             if string in list(contryData.keys()):
                 break
             else:
@@ -84,12 +85,16 @@ def upload_file():
                     orderId =  row.iloc[3]
                     if orderId in column2_values:
                         indexOfShip = column2_values.index(orderId)
+                        shipContry = shipContry_values[indexOfShip]
+                        contryItem = contryData[shipContry]
                         found_data = {
                             'sheet_name': sheet_name,
                             'column1_value':orderId,
                             'column6_value': str(row.iloc[1]).replace('.', ''),
-                            'shipContry':shipContry_values[indexOfShip]
+                            'shipContry':shipContry_values[indexOfShip],
+                            'trackingNumber':trackingNumbers[indexOfShip],
                         }
+                        found_data.update(contryItem)
                         result_data.append(found_data)
 
 
