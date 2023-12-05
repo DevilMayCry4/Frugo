@@ -2,113 +2,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>物流订单回复</title>
-
+    <title>导航页面</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 50px;
+            margin: 40px;
         }
 
         h1 {
-            color: #333;
-        }
-
-        form {
-            display: inline-block;
-            text-align: left;
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-        }
-
-        input[type="file"] {
-            margin-bottom: 16px;
-        }
-
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-
-        #loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.8);
-            justify-content: center;
-            align-items: center;
             text-align: center;
-            z-index: 999;
         }
 
-        #loading-spinner {
-            border: 6px solid #f3f3f3;
-            border-top: 6px solid #3498db;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
+        ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        li {
+            margin: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: block;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #f0f0f0;
         }
     </style>
 </head>
 <body>
-    <h1>物流订单回复</h1>
-    <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
-        <label for="logistics_file">选择物流文件:</label>
-        <input type="file" name="logistics_file" accept=".xlsx" required>
-        <br>
-        <label for="store_file">选择出单表:</label>
-        <input type="file" name="store_file" accept=".xlsx" required>
-        <br>
-        <input type="submit" value="开始生成回复" onclick="showLoadingOverlay()">
-    </form>
-    <div style="color: red;font-size: larger">上传出单表之前，记得删除待下架的sheet</div>
-
-    <!-- Loading Overlay -->
-    <div id="loading-overlay">
-        <div id="loading-spinner"></div>
-        <p>正在生成回复，如果超过2分钟，请刷新页面...</p>
-    </div>
-
-    <script>
-        function showLoadingOverlay() {
-            var overlay = document.getElementById('loading-overlay');
-            overlay.style.display = 'flex';
-
-            // Simulate loading delay (you can remove this in production)
-            setTimeout(function() {
-                overlay.style.display = 'none';
-            }, 3000);
-        }
-    </script>
+    <h1>网站导航</h1>
+    <ul>
+            <li><a href="./report" target="_blank">生成物流回复</a></li>
+    </ul>
 </body>
 </html>

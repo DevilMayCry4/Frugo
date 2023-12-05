@@ -33,6 +33,10 @@ def save_json():
 
     return jsonify(data)
 
+@app.route('/report')
+def report():
+    return render_template('report.html')
+
 @app.route('/')
 def index():
     return render_template('index.html')
