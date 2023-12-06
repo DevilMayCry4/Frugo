@@ -5,12 +5,26 @@ import json
 import pandas as pd
 from werkzeug.utils import secure_filename
 import os
+import uuid
 
 
 app = Flask(__name__)
 
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'xlsx'}
+
+
+def add_random_string_to_filename(filename):
+    # 获取文件扩展名
+    _, file_extension = os.path.splitext(filename)
+
+    # 生成随机字符串
+    random_string = str(uuid.uuid4().hex)[:8]  # 使用前8个字符
+
+    # 拼接新的文件名
+    new_filename = f"{filename.split('.')[0]}_{random_string}{file_extension}"
+
+    return new_filename
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
@@ -53,8 +67,8 @@ def upload_file():
         logistics_filename = secure_filename(logistics_file.filename)
         store_filename = secure_filename(store_file.filename)
 
-        logistics_file_path = os.path.join(app.config['UPLOAD_FOLDER'], logistics_filename)
-        store_file_path = os.path.join(app.config['UPLOAD_FOLDER'], store_filename)
+        logistics_file_path = os.path.join(app.config['UPLOAD_FOLDER'], add_random_string_to_filename(logistics_filename))
+        store_file_path = os.path.join(app.config['UPLOAD_FOLDER'], add_random_string_to_filename(store_filename))
 
         logistics_file.save(logistics_file_path)
         store_file.save(store_file_path)
