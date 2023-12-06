@@ -1,0 +1,17 @@
+# frugo.service
+
+[Unit]
+Description=Gunicorn instance to serve your Flask app
+After=network.target
+
+[Service]
+User=lighthouse
+Group=lighthouse
+WorkingDirectory=/home/lighthouse
+Environment="PATH=/home/lighthouse/venv/bin"
+ExecStartPre=/bin/bash -c 'source /home/lighthouse/venv/bin/activate'
+ExecStart=/bin/bash -c 'gunicorn -c gunicorn_config.py app:app'
+
+[Install]
+WantedBy=multi-user.target
+
