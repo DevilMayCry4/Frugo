@@ -108,7 +108,7 @@ def upload_file():
                         found_data = {
                             'sheet_name': sheet_name,
                             'column1_value': orderId,
-                            'column6_value': str(row.iloc[1]).replace('.', '').rstrip("0"),
+                            'column6_value': str(row.iloc[1]).rstrip("0").rstrip('.'),
                             'shipContry':shipContry_values[indexOfShip],
                             'trackingNumber':trackingNumbers[indexOfShip],
                         }
